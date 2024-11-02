@@ -1,0 +1,60 @@
+# Symfony
+/var/
+/vendor/
+/node_modules/
+/public/bundles/
+/public/index.php
+/public/uploads/
+/public/hot
+
+# Configurações de ambiente
+.env
+.env.local
+.env.*.local
+
+# Cache e logs
+/cache/*
+/logs/*
+!/logs/.gitkeep
+
+# IDEs e editores
+.idea/
+/*.sublime-project
+/*.sublime-workspace
+/.vscode/
+
+# Outros
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.lock
+*.pid
+
+# Arquivos gerados
+*.iml
+*.tmp
+*.bak
+*.orig
+
+# Arquivos de sistema
+*.orig
+*.rej
+*.class
+*.exe
+*.dll
+*.o
+*.out
+*.a
+*.so
+*.jar
+*.war
+*.tgz
+*.gz
+*.zip
+*.7z
+*.rar
+*.tar
+
+# Outros
+/build/
