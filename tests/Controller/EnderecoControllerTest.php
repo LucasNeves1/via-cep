@@ -10,8 +10,8 @@ class EnderecoControllerTest extends WebTestCase
     {
         $client = static::createClient();
         
-        // Defina o CEP de teste
-        $cep = '01001000'; // Utilize um CEP válido para teste
+        // CEP Válido para teste
+        $cep = '01001000'; 
 
         // Envia a requisição para a rota com o CEP
         $client->request('GET', '/endereco/' . $cep);
@@ -26,7 +26,7 @@ class EnderecoControllerTest extends WebTestCase
         $content = $client->getResponse()->getContent();
         $data = json_decode($content, true);
 
-        // Verifique se o JSON tem as chaves esperadas (ajuste de acordo com o retorno da sua API)
+        // Verifique se o JSON tem as chaves esperadas
         $this->assertArrayHasKey('cep', $data);
         $this->assertArrayHasKey('logradouro', $data);
         $this->assertArrayHasKey('bairro', $data);
@@ -38,13 +38,13 @@ class EnderecoControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // Defina um CEP inválido
+        // CEP inválido para teste
         $cep = '00000100';
 
         // Envia a requisição para a rota com o CEP inválido
         $client->request('GET', '/endereco/' . $cep);
 
-        // Verifica se a resposta é bem-sucedida (deve ser 400 Bad Request)
+        // Verifica se a resposta é bem-sucedida
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
 
         // Decodifica o JSON retornado

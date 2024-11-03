@@ -44,7 +44,8 @@ class ViaCepService
         
             // Verifica se a API retornou um erro
             if (isset($result['erro']) && $result['erro'] === 'true') {
-                // Armazena o erro no cache por um curto período (ex: 5 minutos)
+
+                // Armazena o erro no cache por um curto período - 5 minutos
                 $this->logger->warning("CEP nao encontrado para o CEP: $cep");
                 $item->expiresAfter(300); 
                 throw new \Exception('CEP nao encontrado');
