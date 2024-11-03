@@ -1,0 +1,40 @@
+{# templates/index.html.twig #}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar CEP</title>
+</head>
+<body>
+    <ol>
+        <li>A rota para buscar os endereços está em /endereco/${cep}</li>
+        <li>A primeiro busca pelo cep, faz a requisição para a API do ViaCep e retorna o resultado em um JSON</li>
+        <li>Esse resultado é cacheado com o Redis por 24 horas</li>
+        <li>Caso seja realizada a mesma busca em um intervalo de 24 horas, ele retorna o resultado cacheado no Redis</li>
+        <li>O input abaixo é apenas um facilitador para enviar até a rota, não sendo obrigatório o uso</li>
+        <li>A API do ViaCep só aceita CEP no formato 01100100, e não 01.100-100</li>
+        <li>Usei o sistema de logs para registrar se o sistema de cache está funcionando</li>
+        <li>Os testes estão disponíveis através do comando ./vendor/bin/phpunit</li>
+        <li>Arquivos para subir o docker: Dockerfile e docker-compose.yml</li>
+    </ol>
+    <form id="cepForm" onsubmit="buscarCep(event)">
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" name="cep" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <script>
+        function buscarCep(event) {
+            event.preventDefault();
+            const cep = document.getElementById('cep').value;
+            if (cep) {
+                // Redireciona para a rota com o CEP
+                window.location.href = `/endereco/${cep}`;
+            } else {
+                alert("Por favor, insira um CEP.");
+            }
+        }
+    </script>
+</body>
+</html>

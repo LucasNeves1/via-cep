@@ -58,3 +58,8 @@ Thumbs.db
 
 # Outros
 /build/
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

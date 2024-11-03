@@ -22,22 +22,45 @@ class ViaCepService
 
     public function buscarEndereco(string $cep): array
     {
+        // Remover pontuação, pois a API só aceita CEP com números
+        $cep = str_replace(['.', '-'], '', $cep);
+
         $cacheKey = "endereco_$cep";
         
-        // Retornando o item cacheado como endereco_cep, caso nao encontre, faz a requisicao para API do Via cep
-        return $this->cache->get($cacheKey, function (ItemInterface $item) use ($cep) {
+        // Tenta obter o item do cache
+        $cachedData = $this->cache->get($cacheKey, function (ItemInterface $item) use ($cep) {
             $this->logger->info("Fazendo requisição à API ViaCEP para o CEP: $cep");
-
-            // Tempo para expirar o cache, nesse caso 24h
+            
+            // Define o tempo de expiração do cache para 24 horas
             $item->expiresAfter(86400);
-
+        
             $response = $this->client->request('GET', "https://viacep.com.br/ws/$cep/json/");
 
             if ($response->getStatusCode() !== 200) {
                 throw new \Exception('Erro ao acessar a API do ViaCEP');
             }
 
-            return $response->toArray();
+            $result = $response->toArray();
+        
+            // Verifica se a API retornou um erro
+            if (isset($result['erro']) && $result['erro'] === 'true') {
+                // Armazena o erro no cache por um curto período (ex: 5 minutos)
+                $this->logger->warning("CEP nao encontrado para o CEP: $cep");
+                $item->expiresAfter(300); 
+                throw new \Exception('CEP nao encontrado');
+            }
+
+            $this->logger->info("Dados obtidos com sucesso para o CEP: $cep");
+
+            return $result;
         });
+
+        // Verifica se os dados foram obtidos do cache
+        if ($cachedData) {
+            $this->logger->info("Dados retornados do cache para o CEP: $cep");
+        }
+
+        return $cachedData;
     }
+
 }
