@@ -9,7 +9,7 @@
 <body>
     <ol>
         <li>A rota para buscar os endereços está em /endereco/${cep}</li>
-        <li>A primeiro busca pelo cep, faz a requisição para a API do ViaCep e retorna o resultado em um JSON</li>
+        <li>A primeira busca pelo cep, faz a requisição para a API do ViaCep e retorna o resultado em um JSON</li>
         <li>Esse resultado é cacheado com o Redis por 24 horas</li>
         <li>Caso seja realizada a mesma busca em um intervalo de 24 horas, ele retorna o resultado cacheado no Redis</li>
         <li>O input abaixo é apenas um facilitador para enviar até a rota, não sendo obrigatório o uso</li>
